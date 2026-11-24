@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f6e8d1" />
+  <title>Whisker Woods — Yarnbound Adventure</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Whisker Woods home"><span class="brand-mark">✦</span><span>WHISKER <b>WOODS</b></span></a>
+      <div class="top-note"><span class="live-dot"></span> A cozy little adventure</div>
+      <button class="sound-button" id="soundButton" aria-label="Toggle sound">♫ <span>Sound on</span></button>
+    </header>
+
+    <section class="game-layout" aria-label="Whisker Woods game">
+      <div class="game-column">
+        <div class="game-frame">
+          <div class="canvas-wrap">
+            <canvas id="game" width="960" height="540" aria-label="Platform game"></canvas>
+            <div class="screen" id="startScreen">
+              <div class="screen-copy">
+                <div class="eyebrow"><span>✦</span> A PAW-SOME PLATFORMER</div>
+                <h1>Find your<br /><em>happy place.</em></h1>
+                <p>Hop through the woods, gather cozy yarn, and meet your next favorite cat.</p>
+                <button class="primary-button" id="startButton">Start your adventure <span>→</span></button>
+                <div class="tiny-note">No rush. Nine lives? Nah — you get seven. 🐾</div>
+              </div>
+              <div class="hero-cat" aria-hidden="true"><div class="sparkle s1">✦</div><div class="sparkle s2">✧</div><div class="yarn-ball"></div><div class="cat-hero"><i class="ear left"></i><i class="ear right"></i><i class="eye one"></i><i class="eye two"></i><i class="nose"></i><i class="whisker w1"></i><i class="whisker w2"></i><i class="whisker w3"></i><i class="whisker w4"></i></div></div>
+              <div class="start-controls"><span>← → MOVE</span><i></i><span>SPACE JUMP</span><i></i><span>SHIFT ABILITY</span></div>
+            </div>
+            <div class="pause-overlay hidden" id="pauseOverlay"><div class="pause-card"><span class="pause-icon">Ⅱ</span><h2>Taking a breather?</h2><p>Your adventure is right where you left it.</p><button class="primary-button" id="resumeButton">Back to the woods <span>→</span></button></div></div>
+          </div>
+          <div class="gamebar">
+            <div class="level-label"><span class="level-icon">⌂</span><div><small>EXPLORING</small><strong id="levelName">Mossy Meadow · 01</strong></div></div>
+            <div class="game-controls-hint"><kbd>←</kbd><kbd>→</kbd> move <kbd>SPACE</kbd> jump <kbd>SHIFT</kbd> skill</div>
+            <button id="pauseButton" class="pause-button" aria-label="Pause game">Ⅱ</button>
+          </div>
+        </div>
+        <div class="mobile-controls" aria-label="Touch controls">
+          <div class="move-buttons"><button data-control="left" aria-label="Move left">←</button><button data-control="right" aria-label="Move right">→</button></div>
+          <div class="action-buttons"><button data-control="ability" class="ability-touch" aria-label="Use cat ability">✦</button><button data-control="jump" class="jump-touch" aria-label="Jump">↑ <small>JUMP</small></button></div>
+        </div>
+      </div>
+
+      <aside class="side-panel">
+        <div class="profile-card">
+          <div class="profile-top"><div class="avatar" id="catAvatar">🐈</div><div><small>YOUR ADVENTURER</small><h2 id="catName">Marmalade</h2></div><span class="status-pip"></span></div>
+          <div class="profile-bottom"><span id="catAbility">A nimble little jumper</span><button id="catSwitch" aria-label="Open cat collection">↗</button></div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card yarn-stat"><span class="stat-icon">🧶</span><div><small>YARN STASH</small><strong id="yarnCount">0</strong></div><span class="stat-plus">✦</span></div>
+          <div class="stat-card life-stat"><span class="stat-icon">♥</span><div><small>PAW POWER</small><strong id="lifeCount">♥ ♥ ♥ ♥ ♥ ♥ ♥</strong></div></div>
+        </div>
+        <section class="quest-card">
+          <div class="section-heading"><div><span class="section-kicker">YOUR LITTLE QUEST</span><h3>Gather & go</h3></div><span class="quest-flower">✿</span></div>
+          <p>Collect every yarn ball you can find, then reach the little cottage at the end!</p>
+          <div class="quest-progress"><div class="progress-track"><span id="questProgress"></span></div><b id="questText">0 / 0</b></div>
+        </section>
+        <section class="collection-card">
+          <div class="section-heading"><div><span class="section-kicker">THE CAT CAFE</span><h3>Meet the crew</h3></div><button class="text-button" id="shopButton">Shop <span>↗</span></button></div>
+          <div class="cat-roster" id="catRoster"></div>
+        </section>
+        <div class="tip-card"><span>✦</span><p><b>Little tip</b><br /><span id="tipText">Tap shift to use your special cat skill!</span></p></div>
+        <footer>MADE WITH <span>♥</span> AND A LOT OF CAT HAIR</footer>
+      </aside>
+    </section>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="modal hidden" id="shopModal" role="dialog" aria-modal="true" aria-labelledby="shopTitle">
+      <div class="modal-card shop-modal"><button class="modal-close" data-close aria-label="Close">×</button><div class="eyebrow"><span>✦</span> THE CAT CAFE</div><h2 id="shopTitle">Find your <em>purr-fect</em> pal.</h2><p class="modal-intro">Spend your hard-earned yarn on new friends and their lovely little talents.</p><div class="shop-list" id="shopList"></div><div class="shop-wallet">🧶 <b id="shopYarn">0</b> yarn in your stash</div></div>
+    </div>
+    <div class="modal hidden" id="levelModal" role="dialog" aria-modal="true" aria-labelledby="levelTitle">
+      <div class="modal-card level-modal"><div class="confetti">✦　✧　✿　✦</div><div class="eyebrow"><span>✦</span> LEVEL COMPLETE</div><h2 id="levelTitle">You did it,<br /><em>little explorer!</em></h2><p id="levelMessage">The woods are even lovelier with you in them.</p><div class="level-reward"><span>🧶</span><div><small>YARN COLLECTED</small><b id="levelReward">+0</b></div></div><button class="primary-button" id="nextLevelButton">On to the next meadow <span>→</span></button><button class="secondary-button" id="levelShopButton">Visit the cat cafe</button></div>
+    </div>
+    <div class="modal hidden" id="gameOverModal" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle"><div class="modal-card gameover-modal"><div class="eyebrow"><span>✦</span> A LITTLE NAP</div><h2 id="gameOverTitle">Even heroes<br /><em>need a snooze.</em></h2><p>Don't worry — your yarn stash and cat collection are safe.</p><button class="primary-button" id="retryButton">Try this level again <span>→</span></button></div></div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
